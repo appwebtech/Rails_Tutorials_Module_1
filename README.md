@@ -4,7 +4,7 @@
 
 This is a Ruby on Rails tutorial that I prepared and used to help students when I was a TA (Teaching Assistant) in the Ruby on Rails specialisation in Coursera. It envisions a multi layered three tier architecture and Rails powerful Model View Controller (MVC) approach. The Model is where the database resides and the Controller has capabilities to fetch data from the Model and send it to View on a browser using CRUD. These three series of tutorials are three years old and technology stacks might have changed although the concepts remain the same. It will be of help to a developer whose Ruby on Rails knowledge is rusty. I did this at the capstone level (last course in the specialisation) so a familiarity of HTML, CSS, JS, Ruby, Rails, Angular, Databases and Git are recommended.
 
-The Capstone was composed of 7 modules and I made tutorials for the first three as they were more or less tailored for revision purposes. From the fourth module each student was required to work solo for the integrity of the course and seek help via group discussions where I would occasionally intervene or provide some guidance together with the instructors. Mid of this year (2020) I received an email from Johns Hopkins University that the capstone course would be retired towards the end of the year. In light of that, I can share this publicly as it may help someone out there.
+The Capstone was composed of 7 modules and I made tutorials for the first three as they were more or less tailored for revision purposes. From the fourth module each student was required to work solo for the integrity of the course and seek help via group discussions where I would occasionally intervene or provide some guidance together with the instructors. Towards the end of last year (2020), I received an email from Johns Hopkins University that the capstone course would be retired by end of the year. In light of that, I can share this publicly as it may help someone out there.
 
 ## Tech stack
 
@@ -12,7 +12,7 @@ This will be a database (DB) driven application and the interface to the DB is *
 
 I'll use MongoDB (NoSQL) which uses Mongoid as the object document mapper. It provides a nice ActiveRecord like interface to the back-end document store. I won't use GridFS but BSON::Binary type which I'll use to store in documents.
 
-Those documents will be related to the RDBMS which has the object that has data, eg photo on a file. In Mongo, I'll store the actual content i.e photo as you saw in [Course 3](https://github.com/appwebtech/Ruby_on_Rails_Certification/tree/master/3_Ruby_on_Rails_Web_Services_and_Integration_with_MongoDB/MODULE%2002).
+Those documents will be related to RDBM which has the object that has data, eg photo on a file. In Mongo, I'll store the actual content i.e photo as you saw in [Course 3](https://github.com/appwebtech/Ruby_on_Rails_Certification/tree/master/3_Ruby_on_Rails_Web_Services_and_Integration_with_MongoDB/MODULE%2002).
 This will later on be useful for Google geo code API in finding positioning.
 
 On the Browser side, I won't use file storage, but on the contrary, a module; the **ng-token-auth** module which will store current login info into the Browser Cookie store to avoid successive re-authentication.
@@ -400,7 +400,11 @@ I'll now implement the app to comply with the browser requirement of **same orig
 
 I've also added the **rack-cors** gem to enable me look at some security issues presented to browsers where APIs and UI code are deployed independently.
 
+
+```
 code: 'rack-cors', '~>0.4', '>=0.4.0', :require => 'rack/cors'
+
+```
 
 Anyways, I'll get the API server ready for this cross-origin resource sharing scenario. I want the browser to add an origin header to the calls of the server (identifying the source of the code) from say...host [Site B](http://www.siteb.com/) using code downloaded from host [Site A](http://www.sitea.com/).
 
@@ -411,7 +415,7 @@ As you can see below, we have the headers thrown at us and we can do pretty anyt
 ![headers](./img/headers.png)
 <hr>
 
-Within the application.rb, we can use the rack gem and target [site B](http://www.siteb.com/) to pass any header from it's downloaded code using the defined HTTP methods. See the code below.
+Within the application.rb, we can use the rack gem and target [Site B](http://www.siteb.com/) to pass any header from it's downloaded code using the defined HTTP methods. See the code below.
 
 ```ruby
 ------
@@ -489,7 +493,7 @@ Actually, instead of using [Byebug](https://github.com/deivid-rodriguez/byebug) 
 ### Provisioning mLab MongoDB
 
 At this stage I'll do provisioning of two databases. One for Staging and the other for Production, which will be used by Heroku and can be used for local production as well.
-As you can see below, I've created a staging collection Mockup (*don't be afraid, I'll have tossed and created a new production instance by the time you are reading this with different user credentials*).  This will be supplied via the environment variable in heroku.
+As you can see below, I've created a staging collection Mockup (*don't be afraid, I'll have tossed and created a new production instance by the time you are reading this with different user credentials*).  This will be supplied via the environment variable in Heroku.
 
 **NB: mLab which is a MongoDB-as-a-Service (DBaaS) provider was acquired by MongoDB and this year 2020 I had to migrate all my NoSQL databases elsewhere. The pressure for data platforms to get to the cloud “fast” is significant and that's why cloud providers like AWS and Azure have been growing enormously**
 
@@ -508,7 +512,7 @@ You can see my Collection Metrics configuration below.
 
 ### Provisioning Heroku Sites
 
-I will be provisioning heroku sites, both staging and production. I will do deploying revisions both from the master as well as feature branches, just to shake off the rust as this is a review, then after deploying some basic data I'll add the heroku links.
+I will be provisioning Heroku sites, both staging and production. I will do deploying revisions both from the master as well as feature branches, just to shake off the rust as this is a review, then after deploying some basic data I'll add the Heroku links.
 
 
 Before I get to Deployment, I have to FIX any code that is not parsing. By running rspec both globally and targeting the two databases in full documentation mode (-fd), I find some minor errors in the view which I fix and refactor my code.
@@ -542,11 +546,8 @@ No error's thrown or gems tossed (which happens a lot in windows), just warnings
 
 ![staging-prod](./img/staging+prod-1.png)
 
-<hr>
-![staging-deployed](./img/successful-deployment.png)
-<hr>
 
-Tried accessing the staged app remotely, but it returned an error. Sometimes this happens when there is nothing on the View, so I took the liberty of creating one, and pushing once again.
+I tried accessing the staged app remotely, but it returned an error. Sometimes this happens when there is nothing on the View, so I took the liberty of creating one, and pushing once again.
 ![staging-error](./img/staging-error.png)
 <hr>
 
@@ -563,11 +564,15 @@ Instead of the esoteric port bypass I use to manage my servers, I tried running 
 <hr>
 
 ### Staging Instances
-After fixing my code, I pushed to heroku and the [view](https://josembi-jhu.herokuapp.com/) is working. My [RDBMS](https://josembi-jhu.herokuapp.com/api/foos) is working as well, with an empty collection as the data used in Dev mode is never deployed to Production.
+After fixing my code, I pushed to Heroku and the [view](https://josembi-jhu.herokuapp.com/) is working. My [RDBMS](https://josembi-jhu.herokuapp.com/api/foos) is working as well, with an empty collection as the data used in Dev mode is never deployed to Production.
 
 My [MongoDB](https://josembi-jhu.herokuapp.com/api/bars ) is working as it's connected to MLAB where it's fetching data, and it should show an empty collection as well as there is no data there yet. I have enforced the use of SSL for security purposes.
 
 
+
+<hr>
+
+**NB** ***In module 2 I deployed my UI stack on top of Module 1 builds so the url's will appear the same :-(. Next time I'll invest on a good camera and make some video tutorials.***
 
 <hr>
 
