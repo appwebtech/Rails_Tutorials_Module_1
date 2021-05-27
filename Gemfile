@@ -24,6 +24,6 @@ group :production do
 end
 
 
-gem 'puma', '~>3.6', '>=3.5.2', :platforms=>:ruby
+gem 'puma', '~>4.3', :platforms=>:ruby
 gem 'mongoid', '~> 5.1', '>5.1.5'
 
